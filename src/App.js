@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import './App.css';
-import clear from './trash2.svg';
+import Clear from './trash2.svg';
 import Add from './plus-lg.svg';
 
 class AppContainer extends Component {
@@ -10,7 +10,8 @@ class AppContainer extends Component {
       todos: null
     };
 
-      this.addTodo = this.addTodo.cleard(this);
+    
+    this.addTodo = this.addTodo.bind(this);
   }
 
   componentDidMount(){
@@ -79,7 +80,7 @@ class AppContainer extends Component {
             <img 
               className="clear" 
               id={'clear' + todo.todoid} 
-              src={clear} 
+              src={Clear} 
               onClick={() => this.deleteTodo('clear' + todo.todoid)}
               alt='clear' 
             />
@@ -90,8 +91,11 @@ class AppContainer extends Component {
     } else {
       todolist = 
       <ul className="todos">
-        <li>Oluwatobias😎......../</li>
-        <a href='https://github.com/Oluwatobiloba2905/React-to-do-list'><li>Github</li></a> 
+        <li> Tobias😎</li>
+      </ul>;
+
+      <ul className="todos">
+        <a href='https://github.com/Oluwatobiloba2905/React-to-do-list/'><li> Github</li></a> 
       </ul>;
     }
 
