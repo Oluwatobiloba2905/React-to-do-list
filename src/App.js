@@ -1,77 +1,110 @@
-import Listview from  './Listview';
-import AddList from  './AddList';
-import Listbar from './Listbar';
-import { Component } from 'react';
+import React, {Component} from 'react';
+import './App.css';
+import clear from './trash2.svg';
+import Add from './plus-lg.svg';
 
-class App extends Component{
+class AppContainer extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      todos: null
+    };
 
-  state = {tasks: [
-    
-    // {
-    //   id:1,
-    //   text: "sweep ",
-    //   time: "3:pm",
-    //   reminder: true,     
-    // }
-    ], showAddTask:true, userInput: ""}
+      this.addTodo = this.addTodo.cleard(this);
+  }
 
+  componentDidMount(){
+    this.setState({
+      todos: JSON.parse(localStorage.getItem('l0calT0d0s'))
+    });
+  }
 
-    showHandler =()=> {
-      const doesShow = this.state.showAddTask
-      this.setState (
-          {showAddTask: !doesShow}
-      )}
-    deleteHandler =(deleteIndex)=> {
-      const deleteIt = this.state.tasks;
-      deleteIt.splice(deleteIndex, 1)
-      this.setState({deleteIt:deleteIt})
-    }
-    updateTask =()=>{
-      this.setState (
-        {showAddTask: false})
-    }
-    inputChangeHandler = (event) => {
-      this.setState({
-        userInput: event.target.value 
-      })
-    }
-    newTodo =()=>{
-      this.setState({
-        tasks:[
-          ...this.state.tasks, {text:this.state.userInput} ,{day:this.state.userInput }]
-      })
-    }
-  
-  render(){
-
-    const mystyle = {
-      backgroundColor: "darkblue"
+  addTodo() {
+    let uniqueId = localStorage.getItem('t0d0id');
+    if (uniqueId === null) {
+      uniqueId = localStorage.setItem('t0d0id', 0);
+      uniqueId = parseInt(localStorage.getItem('t0d0id'));
+    } else {
+      uniqueId = parseInt(localStorage.getItem('t0d0id'));
+      uniqueId++;
     }
 
-    let showing = null
-    if(this.state.showAddTask){
-        showing =  <AddList  update={this.updateTask}  clicking={this.newTodo}
-        valued={this.state.newTodo} updating ={this.inputChangeHandler}></AddList>
+    let input = prompt(`Enter todo, press ok. Otherwise press cancel.`);
 
-        mystyle.backgroundColor = "red"
+    if (input === null) {
+      console.log('input cancelled');
+    } else {
+      const newTodo = {
+        todo: input,
+        todoid: uniqueId
+      }
+      if (this.state.todos === null) {
+        this.setState({
+          todos: [newTodo]
+        });
+      } else {
+        this.setState({
+          todos: [...this.state.todos, newTodo]
+        });
+      }
+    }
+    localStorage.setItem('t0d0id', uniqueId);
+  }
+
+  deleteTodo(param){
+    let todos = this.state.todos;
+    let todoId = param.slice(3);
+    const TodoIndex = todos.findIndex(todo => {
+      return todo.todoid === parseInt(todoId);
+    });
+    todos.splice(TodoIndex, 1);
+    localStorage.setItem('l0calT0d0s', JSON.stringify(todos));
+    this.setState({
+      todos: JSON.parse(localStorage.getItem('l0calT0d0s'))
+    });
+  }
+
+  render() {
+    console.log(this.state.todos);
+    const todos = this.state.todos;
+    let todolist;
+
+    if (todos) {
+      todolist = 
+      <ul className="todos">
+        {todos.map((todo) => {
+          return(
+          <li key={'todo'+ todo.todoid} id={'todo'+ todo.todoid}>
+            {todo.todo} &nbsp;
+            <img 
+              className="clear" 
+              id={'clear' + todo.todoid} 
+              src={clear} 
+              onClick={() => this.deleteTodo('clear' + todo.todoid)}
+              alt='clear' 
+            />
+          </li>)
+        })}
+      </ul>;
+      localStorage.setItem('l0calT0d0s', JSON.stringify(this.state.todos));
+    } else {
+      todolist = 
+      <ul className="todos">
+        <li>Oluwatobias😎......../</li>
+        <a href='https://github.com/Oluwatobiloba2905/React-to-do-list'><li>Github</li></a> 
+      </ul>;
     }
 
-    // const characterList = this.state.userInput.map((ch) => {return <div className='taskview'> {ch}  </div>
-    // })
-
-    return(
-      <div className="App">
-      <Listbar style={mystyle} showHandle={this.showHandler}></Listbar>
-  
-      <p>{showing } </p>
-       {this.state.tasks.map((viewTask, index) =>
-        {return <Listview clicked={()=>{this.deleteHandler(index)}} key={index} text={viewTask.text} day={viewTask.day} > </Listview> })
-       }
-       
-       {this.inputChangeHandler}
-     
+    return (
+      <div className="container">
+        <h1>Todo list</h1>
+        <button id="add" onClick={this.addTodo}>
+          <img className="plus" src={Add} alt='add' />
+        </button>
+        {todolist}
       </div>
-    )
+    );
   }
 }
-export default App;
+
+export default AppContainer;
