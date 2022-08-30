@@ -1,0 +1,77 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  background-color: black;
+  color: white;
+  /* width: 190px;
+  height: 30px; */
+
+}
+
+.App {
+  max-width: 400px;
+  min-height: 300px;
+  margin: 30px auto;
+  overflow: auto;
+  border: 1px solid white;
+  padding: 30px;
+  border-radius: 50px;
+
+}
+
+.listbar {
+  display: flex;
+}
+
+.listbar h1 {
+  font-size: 30px;
+}
+
+.listbar button {
+  margin-left: 70px;
+  background-color: blue;
+  border: none;
+  cursor: pointer;
+  border-radius: 50px;
+  padding: 6px;
+
+}
+
+.listview {
+  margin-top: 23px;
+}
+
+.eachlist {
+  background-color: rgba(215, 247, 236, 0.388);
+  margin-bottom: 8px;
+  padding-bottom: 10px;
+  padding-top: 5px;
+  padding-left: 10px;
+  color: white;
+}
+
+.addlist {
+  margin-top: 15px;
+}
+
+.addlist input {
+  padding: 5px;
+  width: 19rem;
+  margin-bottom: 10px;
+  color: white;
+}
+
+.addlist button {
+  width: 19rem;
+  background-color: black;
+  color: white;
+  border-radius: 4px;
+  padding: 4px;
+  cursor: pointer;
+}
+
+.addlist h4 {
+  margin-bottom: -18px;
+  color: white;
+}
